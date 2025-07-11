@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' | MentorApp'">MentorApp</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- CSS personalizado para mentores -->
+    <link th:href="@{/css/mentor.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Fragmento de navbar para mentores -->
+    <div th:fragment="navbar(mentorPage)" class="navbar-container">
+        <nav class="navbar navbar-expand-lg mb-4">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/mentor/dashboard}">MentorApp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${mentorPage == 'dashboard'} ? 'active'" 
+                               th:href="@{/mentor/dashboard}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${mentorPage == 'estudiantes'} ? 'active'" 
+                               th:href="@{/mentor/estudiantes}">Mis Estudiantes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${mentorPage == 'sesiones'} ? 'active'" 
+                               th:href="@{/mentor/sesiones}">Sesiones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${mentorPage == 'perfil'} ? 'active'" 
+                               th:href="@{/mentor/perfil}">Mi Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${mentorPage == 'chat'} ? 'active'" 
+                               th:href="@{/mentor/chat}">Chat</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex align-items-center">
+                        <span class="me-3 text-muted d-none d-lg-block">
+                            <i class="fas fa-user-tie me-1"></i>
+                            <!-- Cambio: mentor.nombre -> mentor.name y protección contra null -->
+                            <span th:if="${mentor != null}" th:text="${mentor.name}">Nombre Mentor</span>
+                            <span th:unless="${mentor != null}">Mentor</span>
+                        </span>
+                        <form th:action="@{/logout}" method="post">
+                            <button class="btn btn-outline-secondary" type="submit">
+                                <i class="fas fa-sign-out-alt me-1"></i> Salir
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Contenido principal (será reemplazado por las páginas hijas) -->
+    <div class="container main-content" layout:fragment="content">
+        <!-- Contenido default (opcional) -->
+        <h1>Bienvenido Mentor</h1>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript personalizado para mentores -->
+    <script th:src="@{/js/mentor.js}"></script>
+    <!-- Fragmento de scripts adicionales -->
+    <div layout:fragment="scripts"></div>
+</body>
+</html>

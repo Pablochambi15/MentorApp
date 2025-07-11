@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{estudiantes/base}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Explorar Mentores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+</head>
+<body>
+    <!-- Navbar heredado -->
+    <div layout:replace="~{layouts/base :: navbar('mentores')}"></div>
+
+    <!-- Contenido específico de esta página -->
+    <div layout:fragment="content">
+        <!-- Hero Section -->
+        <section class="hero-mentores bg-primary text-white py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h1 class="display-5 fw-bold mb-3">Encuentra al mentor perfecto</h1>
+                        <p class="lead mb-4">Conecta con expertos dispuestos a compartir sus conocimientos y guiarte en tu aprendizaje.</p>
+                        
+                        <!-- Barra de búsqueda -->
+                        <div class="search-bar bg-white rounded-pill p-1 shadow-sm mb-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-0">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control border-0" placeholder="Buscar mentores por nombre, habilidad o tema...">
+                                <button class="btn btn-primary rounded-pill px-4">Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtros -->
+        <section class="py-3 bg-light">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-4 mb-2 mb-md-0">
+                        <select class="form-select">
+                            <option selected>Área de conocimiento</option>
+                            <option>Tecnología</option>
+                            <option>Negocios</option>
+                            <option>Ciencias</option>
+                            <option>Artes</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2 mb-md-0">
+                        <select class="form-select">
+                            <option selected>Nivel de experiencia</option>
+                            <option>Principiante</option>
+                            <option>Intermedio</option>
+                            <option>Avanzado</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select">
+                            <option selected>Disponibilidad</option>
+                            <option>Esta semana</option>
+                            <option>Fines de semana</option>
+                            <option>Horario nocturno</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Listado de mentores -->
+        <section class="py-5">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Más de 150 mentores disponibles</h2>
+                    <div class="d-flex align-items-center">
+                        <span class="me-2">Ordenar por:</span>
+                        <select class="form-select form-select-sm w-auto">
+                            <option selected>Recomendados</option>
+                            <option>Calificación</option>
+                            <option>Precio: menor a mayor</option>
+                            <option>Precio: mayor a menor</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <!-- Mentor 1 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100 border-0 shadow-sm">
+                            <div class="card-img-top position-relative">
+                                <img src="/images/mentor1-full.jpg" class="img-fluid w-100" alt="Mentor" style="height: 200px; object-fit: cover;">
+                                <div class="rating-badge bg-white rounded-pill shadow-sm px-3 py-1 position-absolute top-10 start-10">
+                                    <i class="fas fa-star text-warning"></i> 4.9
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="card-title mb-0">Dr. Carlos Pérez</h5>
+                                        <p class="text-muted small mb-0">Científico de Datos en TechCorp</p>
+                                    </div>
+                                    <span class="badge bg-success">Disponible</span>
+                                </div>
+                                <div class="mentor-skills mb-3">
+                                    <span class="badge bg-primary-light text-primary">Python</span>
+                                    <span class="badge bg-primary-light text-primary">Machine Learning</span>
+                                    <span class="badge bg-primary-light text-primary">TensorFlow</span>
+                                </div>
+                                <p class="card-text small text-muted mb-3">Más de 10 años de experiencia en proyectos de IA. Ex-profesor universitario y apasionado por enseñar.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary">$45</span>
+                                        <span class="text-muted small"> / hora</span>
+                                    </div>
+                                    <a href="/estudiantes/mentores/1" class="btn btn-sm btn-outline-primary">Ver perfil</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor 2 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100 border-0 shadow-sm">
+                            <div class="card-img-top position-relative">
+                                <img src="/images/mentor2-full.jpg" class="img-fluid w-100" alt="Mentor" style="height: 200px; object-fit: cover;">
+                                <div class="rating-badge bg-white rounded-pill shadow-sm px-3 py-1 position-absolute top-10 start-10">
+                                    <i class="fas fa-star text-warning"></i> 4.8
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="card-title mb-0">Ana Rodríguez</h5>
+                                        <p class="text-muted small mb-0">Diseñadora UX Senior en CreativeLab</p>
+                                    </div>
+                                    <span class="badge bg-success">Disponible</span>
+                                </div>
+                                <div class="mentor-skills mb-3">
+                                    <span class="badge bg-primary-light text-primary">Figma</span>
+                                    <span class="badge bg-primary-light text-primary">UI/UX</span>
+                                    <span class="badge bg-primary-light text-primary">Prototipado</span>
+                                </div>
+                                <p class="card-text small text-muted mb-3">Especialista en diseño centrado en el usuario con experiencia en más de 50 proyectos internacionales.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary">$60</span>
+                                        <span class="text-muted small"> / hora</span>
+                                    </div>
+                                    <a href="/estudiantes/mentores/2" class="btn btn-sm btn-outline-primary">Ver perfil</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor 3 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100 border-0 shadow-sm">
+                            <div class="card-img-top position-relative">
+                                <img src="/images/mentor3-full.jpg" class="img-fluid w-100" alt="Mentor" style="height: 200px; object-fit: cover;">
+                                <div class="rating-badge bg-white rounded-pill shadow-sm px-3 py-1 position-absolute top-10 start-10">
+                                    <i class="fas fa-star text-warning"></i> 5.0
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="card-title mb-0">Prof. Laura Gómez</h5>
+                                        <p class="text-muted small mb-0">Ingeniera de Software en DevSoft</p>
+                                    </div>
+                                    <span class="badge bg-warning">Limitado</span>
+                                </div>
+                                <div class="mentor-skills mb-3">
+                                    <span class="badge bg-primary-light text-primary">Java</span>
+                                    <span class="badge bg-primary-light text-primary">Spring Boot</span>
+                                    <span class="badge bg-primary-light text-primary">Microservicios</span>
+                                </div>
+                                <p class="card-text small text-muted mb-3">15 años desarrollando sistemas empresariales. Enfocada en buenas prácticas y arquitectura limpia.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary">$75</span>
+                                        <span class="text-muted small"> / hora</span>
+                                    </div>
+                                    <a href="/estudiantes/mentores/3" class="btn btn-sm btn-outline-primary">Ver perfil</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor 4 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100 border-0 shadow-sm">
+                            <div class="card-img-top position-relative">
+                                <img src="/images/mentor4-full.jpg" class="img-fluid w-100" alt="Mentor" style="height: 200px; object-fit: cover;">
+                                <div class="rating-badge bg-white rounded-pill shadow-sm px-3 py-1 position-absolute top-10 start-10">
+                                    <i class="fas fa-star text-warning"></i> 4.7
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="card-title mb-0">Juan Martínez</h5>
+                                        <p class="text-muted small mb-0">Especialista en IA en NeuroTech</p>
+                                    </div>
+                                    <span class="badge bg-success">Disponible</span>
+                                </div>
+                                <div class="mentor-skills mb-3">
+                                    <span class="badge bg-primary-light text-primary">Deep Learning</span>
+                                    <span class="badge bg-primary-light text-primary">NLP</span>
+                                    <span class="badge bg-primary-light text-primary">PyTorch</span>
+                                </div>
+                                <p class="card-text small text-muted mb-3">PhD en Ciencias de la Computación con múltiples publicaciones en conferencias internacionales.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary">$90</span>
+                                        <span class="text-muted small"> / hora</span>
+                                    </div>
+                                    <a href="/estudiantes/mentores/4" class="btn btn-sm btn-outline-primary">Ver perfil</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor 5 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100 border-0 shadow-sm">
+                            <div class="card-img-top position-relative">
+                                <img src="/images/mentor5-full.jpg" class="img-fluid w-100" alt="Mentor" style="height: 200px; object-fit: cover;">
+                                <div class="rating-badge bg-white rounded-pill shadow-sm px-3 py-1 position-absolute top-10 start-10">
+                                    <i class="fas fa-star text-warning"></i> 4.5
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="card-title mb-0">María Fernández</h5>
+                                        <p class="text-muted small mb-0">Full-stack Developer en WebSolutions</p>
+                                    </div>
+                                    <span class="badge bg-danger">No disponible</span>
+                                </div>
+                                <div class="mentor-skills mb-3">
+                                    <span class="badge bg-primary-light text-primary">JavaScript</span>
+                                    <span class="badge bg-primary-light text-primary">React</span>
+                                    <span class="badge bg-primary-light text-primary">Node.js</span>
+                                </div>
+                                <p class="card-text small text-muted mb-3">Desarrolladora con experiencia en startups y grandes empresas. Enfocada en rendimiento y escalabilidad.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary">$50</span>
+                                        <span class="text-muted small"> / hora</span>
+                                    </div>
+                                    <a href="/estudiantes/mentores/5" class="btn btn-sm btn-outline-primary">Ver perfil</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor 6 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100 border-0 shadow-sm">
+                            <div class="card-img-top position-relative">
+                                <img src="/images/mentor6-full.jpg" class="img-fluid w-100" alt="Mentor" style="height: 200px; object-fit: cover;">
+                                <div class="rating-badge bg-white rounded-pill shadow-sm px-3 py-1 position-absolute top-10 start-10">
+                                    <i class="fas fa-star text-warning"></i> 4.6
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="card-title mb-0">Carlos Rojas</h5>
+                                        <p class="text-muted small mb-0">Director de Marketing en GrowthHack</p>
+                                    </div>
+                                    <span class="badge bg-success">Disponible</span>
+                                </div>
+                                <div class="mentor-skills mb-3">
+                                    <span class="badge bg-primary-light text-primary">SEO</span>
+                                    <span class="badge bg-primary-light text-primary">Redes Sociales</span>
+                                    <span class="badge bg-primary-light text-primary">Analítica</span>
+                                </div>
+                                <p class="card-text small text-muted mb-3">Ayudando a negocios a crecer en línea desde 2012. Estrategias comprobadas y métricas claras.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary">$55</span>
+                                        <span class="text-muted small"> / hora</span>
+                                    </div>
+                                    <a href="/estudiantes/mentores/6" class="btn btn-sm btn-outline-primary">Ver perfil</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Paginación -->
+                <nav aria-label="Page navigation" class="mt-5">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Siguiente</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts específicos de esta página -->
+    <div layout:fragment="scripts">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log("Página de mentores cargada");
+                
+                // Filtros interactivos
+                const filterSelects = document.querySelectorAll('.form-select');
+                filterSelects.forEach(select => {
+                    select.addEventListener('change', function() {
+                        console.log(`Filtro cambiado: ${this.value}`);
+                        // Aquí iría la lógica para filtrar los mentores
+                    });
+                });
+                
+                // Barra de búsqueda
+                const searchInput = document.querySelector('.search-bar input');
+                const searchButton = document.querySelector('.search-bar button');
+                
+                searchButton.addEventListener('click', function() {
+                    performSearch(searchInput.value);
+                });
+                
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch(this.value);
+                    }
+                });
+                
+                function performSearch(query) {
+                    console.log(`Buscando: ${query}`);
+                    // Lógica de búsqueda aquí
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

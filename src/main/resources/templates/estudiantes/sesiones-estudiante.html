@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{estudiantes/base}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Mis Sesiones</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <style>
+        .fc-event {
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+        .session-badge {
+            font-size: 0.75rem;
+        }
+        .session-card {
+            transition: all 0.3s ease;
+        }
+        .session-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .nav-pills .nav-link.active {
+            background-color: #0d6efd;
+        }
+        .session-completed {
+            opacity: 0.8;
+            background-color: #f8f9fa;
+        }
+        .session-completed .session-title {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar heredado -->
+    <div layout:replace="~{layouts/base :: navbar('sesiones')}"></div>
+
+    <!-- Contenido específico de esta página -->
+    <div layout:fragment="content">
+        <!-- Header -->
+        <section class="py-4 bg-light">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-0">Mis Sesiones</h1>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newSessionModal">
+                        <i class="fas fa-plus me-2"></i>Nueva Sesión
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtros y vistas -->
+        <section class="py-3 border-bottom">
+            <div class="container">
+                <ul class="nav nav-pills mb-3" id="session-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="calendar-tab" data-bs-toggle="pill" data-bs-target="#calendar-view" type="button" role="tab">
+                            <i class="far fa-calendar-alt me-2"></i>Calendario
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="list-tab" data-bs-toggle="pill" data-bs-target="#list-view" type="button" role="tab">
+                            <i class="fas fa-list-ul me-2"></i>Lista
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                    <span class="me-2">Filtrar:</span>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <input type="radio" class="btn-check" name="session-filter" id="filter-all" autocomplete="off" checked>
+                        <label class="btn btn-outline-secondary" for="filter-all">Todas</label>
+                        
+                        <input type="radio" class="btn-check" name="session-filter" id="filter-upcoming" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="filter-upcoming">Próximas</label>
+                        
+                        <input type="radio" class="btn-check" name="session-filter" id="filter-completed" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="filter-completed">Completadas</label>
+                        
+                        <input type="radio" class="btn-check" name="session-filter" id="filter-canceled" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="filter-canceled">Canceladas</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contenido principal -->
+        <section class="py-4">
+            <div class="container">
+                <div class="tab-content" id="session-tabContent">
+                    <!-- Vista de calendario -->
+                    <div class="tab-pane fade show active" id="calendar-view" role="tabpanel">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vista de lista -->
+                    <div class="tab-pane fade" id="list-view" role="tabpanel">
+                        <div class="row">
+                            <!-- Sesión 1 -->
+                            <div class="col-md-6 col-lg-4 mb-4 session-item" data-status="upcoming">
+                                <div class="card session-card h-100 border-0 shadow-sm">
+                                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 session-title">Introducción a Python</h5>
+                                        <span class="session-badge badge bg-white text-primary">Próxima</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <img src="/images/mentor1.jpg" class="rounded-circle me-3" width="50" height="50" alt="Mentor">
+                                            <div>
+                                                <h6 class="mb-0">Dr. Carlos Pérez</h6>
+                                                <small class="text-muted">Científico de Datos</small>
+                                            </div>
+                                        </div>
+                                        <p class="mb-2"><i class="far fa-calendar-alt me-2"></i> <strong>Mañana</strong>, 10:00 AM - 11:30 AM</p>
+                                        <p class="mb-2"><i class="fas fa-video me-2"></i> Sesión por Zoom</p>
+                                        <p class="mb-0"><i class="fas fa-link me-2"></i> <a href="#">zoom.us/j/123456789</a></p>
+                                    </div>
+                                    <div class="card-footer bg-transparent d-flex justify-content-between">
+                                        <button class="btn btn-sm btn-outline-primary">Detalles</button>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-secondary me-2" title="Reprogramar">
+                                                <i class="fas fa-calendar-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-primary">Unirse</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sesión 2 -->
+                            <div class="col-md-6 col-lg-4 mb-4 session-item" data-status="upcoming">
+                                <div class="card session-card h-100 border-0 shadow-sm">
+                                    <div class="card-header bg-warning text-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 session-title">Diseño UX Avanzado</h5>
+                                        <span class="session-badge badge bg-white text-warning">Pendiente</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <img src="/images/mentor2.jpg" class="rounded-circle me-3" width="50" height="50" alt="Mentor">
+                                            <div>
+                                                <h6 class="mb-0">Ana Rodríguez</h6>
+                                                <small class="text-muted">Diseñadora Senior</small>
+                                            </div>
+                                        </div>
+                                        <p class="mb-2"><i class="far fa-calendar-alt me-2"></i> <strong>Viernes</strong>, 2:00 PM - 3:30 PM</p>
+                                        <p class="mb-2"><i class="fas fa-video me-2"></i> Sesión por Google Meet</p>
+                                        <p class="mb-0"><i class="fas fa-link me-2"></i> <a href="#">meet.google.com/abc-defg-hij</a></p>
+                                    </div>
+                                    <div class="card-footer bg-transparent d-flex justify-content-between">
+                                        <button class="btn btn-sm btn-outline-primary">Detalles</button>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-secondary me-2" title="Reprogramar">
+                                                <i class="fas fa-calendar-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success">Confirmar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sesión 3 -->
+                            <div class="col-md-6 col-lg-4 mb-4 session-item" data-status="completed">
+                                <div class="card session-card h-100 border-0 shadow-sm session-completed">
+                                    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 session-title">Revisión de Proyecto Final</h5>
+                                        <span class="session-badge badge bg-white text-secondary">Completada</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <img src="/images/mentor3.jpg" class="rounded-circle me-3" width="50" height="50" alt="Mentor">
+                                            <div>
+                                                <h6 class="mb-0">Prof. Laura Gómez</h6>
+                                                <small class="text-muted">Ingeniera de Software</small>
+                                            </div>
+                                        </div>
+                                        <p class="mb-2"><i class="far fa-calendar-alt me-2"></i> <strong>15 Mar 2023</strong>, 4:00 PM - 5:30 PM</p>
+                                        <p class="mb-2"><i class="fas fa-video me-2"></i> Sesión por Zoom</p>
+                                        <div class="alert alert-success p-2 mb-0">
+                                            <small><i class="fas fa-check-circle me-2"></i> Sesión completada - <a href="#">Ver retroalimentación</a></small>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <button class="btn btn-sm btn-outline-primary">Detalles</button>
+                                        <button class="btn btn-sm btn-outline-success ms-2">Agendar seguimiento</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sesión 4 -->
+                            <div class="col-md-6 col-lg-4 mb-4 session-item" data-status="completed">
+                                <div class="card session-card h-100 border-0 shadow-sm session-completed">
+                                    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 session-title">Fundamentos de Machine Learning</h5>
+                                        <span class="session-badge badge bg-white text-secondary">Completada</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <img src="/images/mentor4.jpg" class="rounded-circle me-3" width="50" height="50" alt="Mentor">
+                                            <div>
+                                                <h6 class="mb-0">Juan Martínez</h6>
+                                                <small class="text-muted">Especialista en IA</small>
+                                            </div>
+                                        </div>
+                                        <p class="mb-2"><i class="far fa-calendar-alt me-2"></i> <strong>10 Mar 2023</strong>, 9:00 AM - 10:30 AM</p>
+                                        <p class="mb-2"><i class="fas fa-video me-2"></i> Sesión por Teams</p>
+                                        <div class="alert alert-success p-2 mb-0">
+                                            <small><i class="fas fa-check-circle me-2"></i> Sesión completada - <a href="#">Ver materiales</a></small>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <button class="btn btn-sm btn-outline-primary">Detalles</button>
+                                        <button class="btn btn-sm btn-outline-success ms-2">Agendar seguimiento</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sesión 5 -->
+                            <div class="col-md-6 col-lg-4 mb-4 session-item" data-status="canceled">
+                                <div class="card session-card h-100 border-0 shadow-sm">
+                                    <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 session-title">Taller de JavaScript</h5>
+                                        <span class="session-badge badge bg-white text-danger">Cancelada</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <img src="/images/mentor5.jpg" class="rounded-circle me-3" width="50" height="50" alt="Mentor">
+                                            <div>
+                                                <h6 class="mb-0">María Fernández</h6>
+                                                <small class="text-muted">Full-stack Developer</small>
+                                            </div>
+                                        </div>
+                                        <p class="mb-2"><i class="far fa-calendar-alt me-2"></i> <strong>5 Mar 2023</strong>, 11:00 AM - 12:30 PM</p>
+                                        <p class="mb-2"><i class="fas fa-video me-2"></i> Sesión por Zoom</p>
+                                        <div class="alert alert-danger p-2 mb-0">
+                                            <small><i class="fas fa-times-circle me-2"></i> Cancelada por el mentor</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <button class="btn btn-sm btn-outline-primary">Detalles</button>
+                                        <button class="btn btn-sm btn-outline-secondary ms-2">Reagendar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Paginación -->
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Siguiente</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal para nueva sesión -->
+        <div class="modal fade" id="newSessionModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agendar nueva sesión</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Seleccionar mentor</label>
+                                    <select class="form-select">
+                                        <option selected>Selecciona un mentor</option>
+                                        <option>Dr. Carlos Pérez - Ciencia de Datos</option>
+                                        <option>Ana Rodríguez - Diseño UX</option>
+                                        <option>Prof. Laura Gómez - Ingeniería de Software</option>
+                                        <option>Juan Martínez - Inteligencia Artificial</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Tipo de sesión</label>
+                                    <select class="form-select">
+                                        <option selected>Consulta individual</option>
+                                        <option>Revisión de proyecto</option>
+                                        <option>Preparación para entrevista</option>
+                                        <option>Seguimiento continuo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Fecha</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Hora de inicio</label>
+                                    <input type="time" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Duración</label>
+                                    <select class="form-select">
+                                        <option>30 min</option>
+                                        <option selected>60 min</option>
+                                        <option>90 min</option>
+                                        <option>120 min</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Plataforma</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="platform" id="platformZoom" checked>
+                                    <label class="form-check-label" for="platformZoom">
+                                        Zoom
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="platform" id="platformMeet">
+                                    <label class="form-check-label" for="platformMeet">
+                                        Google Meet
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="platform" id="platformTeams">
+                                    <label class="form-check-label" for="platformTeams">
+                                        Microsoft Teams
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="sessionNotes" class="form-label">Notas adicionales</label>
+                                <textarea class="form-control" id="sessionNotes" rows="3" placeholder="¿Qué te gustaría tratar en esta sesión?"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary">Solicitar sesión</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts específicos de esta página -->
+    <div layout:fragment="scripts">
+        <!-- FullCalendar JS -->
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.min.js"></script>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log("Página de sesiones cargada");
+                
+                // Inicializar calendario
+                const calendarEl = document.getElementById('calendar');
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    locale: 'es',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    events: [
+                        {
+                            title: 'Introducción a Python',
+                            start: new Date(new Date().setDate(new Date().getDate() + 1)),
+                            end: new Date(new Date().setDate(new Date().getDate() + 1)),
+                            extendedProps: {
+                                mentor: 'Dr. Carlos Pérez',
+                                type: 'zoom',
+                                status: 'upcoming'
+                            },
+                            backgroundColor: '#0d6efd',
+                            borderColor: '#0d6efd'
+                        },
+                        {
+                            title: 'Diseño UX Avanzado',
+                            start: getNextFriday(),
+                            end: getNextFriday(),
+                            extendedProps: {
+                                mentor: 'Ana Rodríguez',
+                                type: 'meet',
+                                status: 'pending'
+                            },
+                            backgroundColor: '#ffc107',
+                            borderColor: '#ffc107'
+                        },
+                        {
+                            title: 'Revisión de Proyecto Final',
+                            start: '2023-03-15T16:00:00',
+                            end: '2023-03-15T17:30:00',
+                            extendedProps: {
+                                mentor: 'Prof. Laura Gómez',
+                                type: 'zoom',
+                                status: 'completed'
+                            },
+                            backgroundColor: '#6c757d',
+                            borderColor: '#6c757d'
+                        },
+                        {
+                            title: 'Fundamentos de Machine Learning',
+                            start: '2023-03-10T09:00:00',
+                            end: '2023-03-10T10:30:00',
+                            extendedProps: {
+                                mentor: 'Juan Martínez',
+                                type: 'teams',
+                                status: 'completed'
+                            },
+                            backgroundColor: '#6c757d',
+                            borderColor: '#6c757d'
+                        },
+                        {
+                            title: 'Taller de JavaScript',
+                            start: '2023-03-05T11:00:00',
+                            end: '2023-03-05T12:30:00',
+                            extendedProps: {
+                                mentor: 'María Fernández',
+                                type: 'zoom',
+                                status: 'canceled'
+                            },
+                            backgroundColor: '#dc3545',
+                            borderColor: '#dc3545'
+                        }
+                    ],
+                    eventClick: function(info) {
+                        // Aquí podrías abrir un modal con los detalles de la sesión
+                        console.log('Sesión clickeada:', info.event.title);
+                        alert(`Verás los detalles de: ${info.event.title}\nMentor: ${info.event.extendedProps.mentor}`);
+                    }
+                });
+                calendar.render();
+                
+                // Función para obtener el próximo viernes
+                function getNextFriday() {
+                    const date = new Date();
+                    date.setDate(date.getDate() + (5 + 7 - date.getDay()) % 7);
+                    return date;
+                }
+                
+                // Filtrado de sesiones
+                const filterButtons = document.querySelectorAll('input[name="session-filter"]');
+                filterButtons.forEach(button => {
+                    button.addEventListener('change', function() {
+                        const filterValue = this.id.replace('filter-', '');
+                        filterSessions(filterValue);
+                    });
+                });
+                
+                function filterSessions(filter) {
+                    const sessionItems = document.querySelectorAll('.session-item');
+                    
+                    sessionItems.forEach(item => {
+                        if (filter === 'all') {
+                            item.style.display = 'block';
+                        } else {
+                            if (item.getAttribute('data-status') === filter) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        }
+                    });
+                }
+                
+                // Cambio entre pestañas
+                const tabButtons = document.querySelectorAll('#session-tab button');
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const target = this.getAttribute('data-bs-target');
+                        console.log(`Cambiando a vista: ${target}`);
+                    });
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>

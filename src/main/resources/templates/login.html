@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - MentorApp</title>
+  <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
+<body>
+  <div class="auth-container">
+    <h1>Iniciar Sesión</h1>
+
+    <!-- Mensaje de error al fallar login -->
+    <div th:if="${param.error}" class="login-error" style="color:red">
+      Correo o contraseña inválidos.
+    </div>
+    <div th:if="${param.logout}" class="login-logout" style="color:green">
+      Has cerrado sesión correctamente.
+    </div>
+
+    <form id="loginForm" class="auth-form" th:action="@{/auth/login}" method="post">
+      <input type="email" name="username" placeholder="Correo electrónico" required>
+      <input type="password" name="password" placeholder="Contraseña" required>
+      <button type="submit" class="login-btn">Ingresar</button>
+    </form>
+
+    <div class="auth-links">
+      <a class="auth-link" th:href="@{/oauth2/authorization/google}">
+        Continuar con Google
+      </a>
+      <a class="auth-link" th:href="@{/auth/register}">
+        Crear una cuenta
+      </a>
+    </div>
+  </div>
+
+  <script th:src="@{/js/login.js}"></script>
+</body>
+</html>

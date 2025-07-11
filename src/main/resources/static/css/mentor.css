@@ -1,0 +1,192 @@
+/* mentores/base.css - Estilos base para la plantilla de mentores */
+
+/* Variables de color específicas para mentores */
+:root {
+    --mentor-primary: #166088;       /* Azul principal más profesional */
+    --mentor-secondary: #4A6FA5;     /* Azul secundario */
+    --mentor-accent: #4FC3F7;        /* Azul claro/accent */
+    --mentor-dark: #1A2639;          /* Color oscuro para texto */
+    --mentor-light: #F8F9FA;         /* Fondo claro */
+    --mentor-gray: #6C757D;          /* Texto gris */
+    --mentor-light-gray: #E9ECEF;    /* Bordes y fondos grises claros */
+    --mentor-success: #28A745;       /* Verde para éxito */
+    --mentor-warning: #FFC107;       /* Amarillo para advertencias */
+    --mentor-danger: #DC3545;        /* Rojo para errores */
+    --mentor-card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Estructura base */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--mentor-light);
+    color: var(--mentor-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container.main-content {
+    flex: 1;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* Navbar específico para mentores */
+.navbar-mentor {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+
+.navbar-mentor .navbar-brand {
+    font-weight: 700;
+    color: var(--mentor-primary) !important;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand i {
+    margin-right: 0.5rem;
+}
+
+.navbar-mentor .nav-link {
+    color: var(--mentor-gray);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    margin: 0 0.2rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.navbar-mentor .nav-link:hover {
+    color: var(--mentor-primary);
+    background-color: var(--mentor-light-gray);
+}
+
+.navbar-mentor .nav-link.active {
+    color: white !important;
+    background-color: var(--mentor-primary);
+    font-weight: 600;
+}
+
+.navbar-mentor .navbar-toggler {
+    border-color: var(--mentor-light-gray);
+}
+
+.navbar-mentor .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(22, 96, 136, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Estilos para el dropdown de perfil (si se implementa) */
+.mentor-dropdown .dropdown-toggle::after {
+    display: none;
+}
+
+.mentor-dropdown .dropdown-menu {
+    border: none;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.mentor-dropdown .dropdown-item {
+    padding: 0.5rem 1.5rem;
+}
+
+.mentor-dropdown .dropdown-item:hover {
+    background-color: var(--mentor-light);
+    color: var(--mentor-primary);
+}
+
+/* Footer base (opcional) */
+.footer-mentor {
+    background-color: var(--mentor-dark);
+    color: white;
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+.footer-mentor a {
+    color: var(--mentor-accent);
+    text-decoration: none;
+}
+
+.footer-mentor a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Botones base para mentores */
+.btn-mentor {
+    background-color: var(--mentor-primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-mentor:hover {
+    background-color: #0d4b6e;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.btn-mentor-outline {
+    border: 1px solid var(--mentor-primary);
+    color: var(--mentor-primary);
+    background-color: transparent;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-mentor-outline:hover {
+    background-color: var(--mentor-primary);
+    color: white;
+}
+
+/* Tarjetas base */
+.mentor-card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: var(--mentor-card-shadow);
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.mentor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mentor-card-header {
+    background-color: var(--mentor-primary);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-bottom: none;
+}
+
+/* Responsividad */
+@media (max-width: 992px) {
+    .navbar-mentor .nav-link {
+        padding: 0.5rem;
+        margin: 0.2rem 0;
+    }
+    
+    .navbar-mentor .nav-link.active {
+        background-color: transparent;
+        color: var(--mentor-primary) !important;
+        font-weight: 600;
+    }
+}
+
+@media (max-width: 768px) {
+    .container.main-content {
+        padding-top: 1.5rem;
+        padding-bottom: 2rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+}

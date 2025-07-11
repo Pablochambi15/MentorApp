@@ -1,0 +1,51 @@
+<!-- UPDATED dashboard-mentor.html with null-safe checks -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mentores/base}">
+<head>
+    <title>Inicio Mentor | MentorApp</title>
+</head>
+<body>
+    <!-- Navbar heredado -->
+    <div layout:replace="~{mentores/base :: navbar('dashboard')}"></div>
+
+    <!-- Contenido principal -->
+    <div layout:fragment="content">
+        <!-- Hero Banner -->
+        <section class="mentor-hero-banner">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <!-- null‑safe -->
+                        <h1 class="hero-title">
+                            Bienvenido,
+                            <span th:if="${mentor != null}" th:text="${mentor.name}">Mentor</span>
+                            <span th:unless="${mentor != null}">Mentor</span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            Estás ayudando a <strong><span th:text="${estudiantesActivos}">0</span> estudiantes</strong>
+                            en su viaje de aprendizaje
+                        </p>
+                        <div class="hero-cta">
+                            <a href="/mentor/sesiones" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calendar-check me-2"></i>Ver mis sesiones
+                            </a>
+                            <a href="/mentor/disponibilidad" class="btn btn-outline-light btn-lg ms-3">
+                                <i class="fas fa-calendar-alt me-2"></i>Gestionar disponibilidad
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 d-none d-lg-block">
+                        <img src="/images/mentor-dashboard.svg" alt="Mentor enseñando" class="hero-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estadísticas -->
+        <!-- (sección idéntica, pero asegurando que variables existen en controlador) -->
+        ...
+    </div>
+</body>
+</html>

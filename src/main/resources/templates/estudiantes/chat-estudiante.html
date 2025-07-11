@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{estudiantes/base}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <style>
+        .chat-container {
+            height: calc(100vh - 200px);
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+        }
+        .contacts-list {
+            border-right: 1px solid #dee2e6;
+            overflow-y: auto;
+        }
+        .contact-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .contact-item:hover, .contact-item.active {
+            background-color: #f8f9fa;
+        }
+        .contact-item.unread {
+            background-color: #e9f5ff;
+        }
+        .chat-messages {
+            overflow-y: auto;
+            background-color: #f8f9fa;
+        }
+        .message-input {
+            border-top: 1px solid #dee2e6;
+        }
+        .message {
+            max-width: 70%;
+            margin-bottom: 10px;
+        }
+        .message-sent {
+            margin-left: auto;
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 1rem 1rem 0 1rem;
+        }
+        .message-received {
+            margin-right: auto;
+            background-color: white;
+            border-radius: 1rem 1rem 1rem 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .unread-badge {
+            font-size: 0.7rem;
+        }
+        .last-message {
+            font-size: 0.85rem;
+            color: #6c757d;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar heredado -->
+    <div layout:replace="~{layouts/base :: navbar('chat')}"></div>
+
+    <!-- Contenido específico de esta página -->
+    <div layout:fragment="content">
+        <div class="container py-4">
+            <h1 class="mb-4">Chat con Mentores</h1>
+            
+            <div class="row chat-container g-0">
+                <!-- Lista de contactos -->
+                <div class="col-md-4 contacts-list">
+                    <!-- Barra de búsqueda -->
+                    <div class="p-3 border-bottom">
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="fas fa-search text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-start-0" placeholder="Buscar mentores...">
+                        </div>
+                    </div>
+                    
+                    <!-- Lista de mentores -->
+                    <div class="list-group list-group-flush">
+                        <!-- Mentor 1 - Activo -->
+                        <div class="list-group-item contact-item active">
+                            <div class="d-flex align-items-center">
+                                <img src="/images/mentor1.jpg" class="rounded-circle me-3" width="50" height="50" alt="Mentor">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">Dr. Carlos Pérez</h6>
+                                        <small class="text-muted">10:30 AM</small>
+                                    </div>
+                                    <p class="last-message mb-0">Hola, te envié los materiales para nuestra próxima sesión...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mentor 2 - Con mensajes sin leer -->
+                        <div class="list-group-item contact-item unread">
+                            <div class="d-flex align-items-center">
+                                <img src="/images/mentor2.jpg" class="rounded-circle me-3" width="50" height="50" alt="Mentor">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">Ana Rodríguez</h6>
+                                        <div>
+                                            <small class="text-muted me-2">Ayer</small>
+                                            <span class="badge bg-primary rounded-pill unread-badge">3</span>
+                                        </div>
+                                    </div>
+                                    <p class="last-message mb-0">¿Podrías compartirme el enlace de tu proyecto en Figma?</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mentor 3 -->
+                        <div class="list-group-item contact-item">
+                            <div class="d-flex align-items-center">
+                                <img src="/images/mentor3.jpg" class="rounded-circle me-3" width="50" height="50" alt="Mentor">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">Prof. Laura Gómez</h6>
+                                        <small class="text-muted">Mar 15</small>
+                                    </div>
+                                    <p class="last-message mb-0">Excelente trabajo en el proyecto final!</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mentor 4 -->
+                        <div class="list-group-item contact-item">
+                            <div class="d-flex align-items-center">
+                                <img src="/images/mentor4.jpg" class="rounded-circle me-3" width="50" height="50" alt="Mentor">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">Juan Martínez</h6>
+                                        <small class="text-muted">Mar 10</small>
+                                    </div>
+                                    <p class="last-message mb-0">Nos vemos en la próxima sesión</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Área de chat -->
+                <div class="col-md-8 d-flex flex-column">
+                    <!-- Encabezado del chat -->
+                    <div class="p-3 border-bottom d-flex align-items-center">
+                        <img src="/images/mentor1.jpg" class="rounded-circle me-3" width="40" height="40" alt="Mentor">
+                        <div>
+                            <h5 class="mb-0">Dr. Carlos Pérez</h5>
+                            <small class="text-muted">Científico de Datos - En línea</small>
+                        </div>
+                        <div class="ms-auto">
+                            <button class="btn btn-sm btn-outline-secondary me-2">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-video"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Mensajes -->
+                    <div class="flex-grow-1 p-3 chat-messages">
+                        <!-- Fecha -->
+                        <div class="text-center text-muted small mb-3">HOY</div>
+                        
+                        <!-- Mensaje recibido -->
+                        <div class="message message-received p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <strong>Dr. Carlos Pérez</strong>
+                                <small class="text-muted ms-2">10:30 AM</small>
+                            </div>
+                            <p class="mb-0">Hola! ¿Cómo vas con el ejercicio que te dejé la última sesión?</p>
+                        </div>
+                        
+                        <!-- Mensaje enviado -->
+                        <div class="message message-sent p-3">
+                            <div class="d-flex justify-content-end mb-2">
+                                <small class="text-white-50 me-2">10:32 AM</small>
+                                <strong>Tú</strong>
+                            </div>
+                            <p class="mb-0">Hola Carlos! Ya casi lo termino, solo me falta la parte de la visualización de datos.</p>
+                        </div>
+                        
+                        <!-- Mensaje recibido -->
+                        <div class="message message-received p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <strong>Dr. Carlos Pérez</strong>
+                                <small class="text-muted ms-2">10:33 AM</small>
+                            </div>
+                            <p class="mb-0">Perfecto. Te envié unos materiales adicionales que te pueden ayudar con esa parte.</p>
+                        </div>
+                        
+                        <!-- Mensaje recibido con archivo -->
+                        <div class="message message-received p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <strong>Dr. Carlos Pérez</strong>
+                                <small class="text-muted ms-2">10:33 AM</small>
+                            </div>
+                            <div class="border p-2 rounded bg-white">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-file-pdf text-danger me-2"></i>
+                                    <div>
+                                        <p class="mb-0 fw-bold">Material_Visualizacion.pdf</p>
+                                        <small class="text-muted">2.4 MB</small>
+                                    </div>
+                                    <a href="#" class="ms-auto btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mensaje enviado -->
+                        <div class="message message-sent p-3">
+                            <div class="d-flex justify-content-end mb-2">
+                                <small class="text-white-50 me-2">10:35 AM</small>
+                                <strong>Tú</strong>
+                            </div>
+                            <p class="mb-0">Muchas gracias! Los revisaré hoy mismo.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Entrada de mensaje -->
+                    <div class="message-input p-3">
+                        <form class="d-flex align-items-center">
+                            <button type="button" class="btn btn-outline-secondary me-2">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <input type="text" class="form-control me-2" placeholder="Escribe un mensaje...">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts específicos de esta página -->
+    <div layout:fragment="scripts">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log("Página de chat cargada");
+                
+                // Seleccionar un contacto de la lista
+                const contactItems = document.querySelectorAll('.contact-item');
+                contactItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        // Remover la clase active de todos los contactos
+                        contactItems.forEach(ci => ci.classList.remove('active'));
+                        
+                        // Agregar active al contacto seleccionado
+                        this.classList.add('active');
+                        
+                        // Aquí iría la lógica para cargar los mensajes de este contacto
+                        const mentorName = this.querySelector('h6').textContent;
+                        console.log(`Cargando chat con: ${mentorName}`);
+                        
+                        // Marcar como leído si tenía mensajes sin leer
+                        if (this.classList.contains('unread')) {
+                            this.classList.remove('unread');
+                            const badge = this.querySelector('.unread-badge');
+                            if (badge) badge.remove();
+                        }
+                    });
+                });
+                
+                // Envío de mensajes
+                const messageForm = document.querySelector('.message-input form');
+                messageForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const input = this.querySelector('input');
+                    const messageText = input.value.trim();
+                    
+                    if (messageText) {
+                        console.log(`Mensaje enviado: ${messageText}`);
+                        
+                        // Aquí iría la lógica para enviar el mensaje al servidor
+                        // y luego agregarlo a la interfaz
+                        
+                        // Ejemplo de cómo agregar el mensaje a la interfaz
+                        const messagesContainer = document.querySelector('.chat-messages');
+                        const now = new Date();
+                        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        
+                        const messageElement = document.createElement('div');
+                        messageElement.className = 'message message-sent p-3';
+                        messageElement.innerHTML = `
+                            <div class="d-flex justify-content-end mb-2">
+                                <small class="text-white-50 me-2">${timeString}</small>
+                                <strong>Tú</strong>
+                            </div>
+                            <p class="mb-0">${messageText}</p>
+                        `;
+                        
+                        messagesContainer.appendChild(messageElement);
+                        input.value = '';
+                        
+                        // Hacer scroll al último mensaje
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                });
+                
+                // Hacer scroll al final de los mensajes al cargar
+                const messagesContainer = document.querySelector('.chat-messages');
+                if (messagesContainer) {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
